@@ -101,16 +101,12 @@ void LogWrite (const char *pSource, unsigned Severity, const char *pMessage, ...
 	va_end (var);
 }
 
-#ifndef NDEBUG
-
 void uspi_assertion_failed (const char *pExpr, const char *pFile, unsigned nLine)
 {
 	assertion_failed (pExpr, pFile, nLine);
 }
 
-void DebugHexdump (const void *pBuffer, unsigned nBufLen, const char *pSource)
-{
-	debug_hexdump (pBuffer, nBufLen, pSource);
-}
-
-#endif
+// void DebugHexdump (const void *pBuffer, unsigned nBufLen, const char *pSource)
+// {
+// 	debug_hexdump (pBuffer, nBufLen, pSource);
+// }

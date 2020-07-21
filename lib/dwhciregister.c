@@ -123,8 +123,6 @@ void DWHCIRegisterSetAll (TDWHCIRegister *pThis)
 	pThis->m_bValid = TRUE;
 }
 
-#ifndef NDEBUG
-
 void DWHCIRegisterDump (TDWHCIRegister *pThis)
 {
 	assert (pThis != 0);
@@ -141,5 +139,3 @@ void DWHCIRegisterDump (TDWHCIRegister *pThis)
 			     pThis->m_nAddress & 0xFFF);
 	}
 }
-
-#endif
