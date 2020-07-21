@@ -735,6 +735,7 @@ boolean DWHCIDeviceTransferStage (TDWHCIDevice *pThis, TUSBRequest *pURB, boolea
 	while (pThis->m_bWaiting)
 	{
 		// do nothing
+		usDelay (30);
 	}
 
 	return USBRequestGetStatus (pURB);
