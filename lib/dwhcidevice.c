@@ -29,6 +29,8 @@
 #include <uspi/macros.h>
 #include <uspi/assert.h>
 
+#include <camkes.h>
+
 #define ARM_IRQ_USB		9		// for ConnectInterrupt()
 
 #define DEVICE_ID_USB_HCD	3		// for SetPowerStateOn()
@@ -716,6 +718,11 @@ void DWHCIDeviceFlushRxFIFO (TDWHCIDevice *pThis)
 
 boolean DWHCIDeviceTransferStage (TDWHCIDevice *pThis, TUSBRequest *pURB, boolean bIn, boolean bStatusStage)
 {
+	if(nic_init_transfer_wait())
+	{
+		LogWrite (FromDWHCI, USPI_LOG_ERROR, "DWHCIDeviceTransferStage could not be locked.");
+	}
+
 	assert (pThis != 0);
 
 	assert (pURB != 0);
@@ -736,6 +743,11 @@ boolean DWHCIDeviceTransferStage (TDWHCIDevice *pThis, TUSBRequest *pURB, boolea
 	{
 		// do nothing
 		usDelay (30);
+	}
+
+	if(nic_init_transfer_post())
+	{
+		LogWrite (FromDWHCI, USPI_LOG_ERROR, "DWHCIDeviceTransferStage could not be unlocked.");
 	}
 
 	return USBRequestGetStatus (pURB);
