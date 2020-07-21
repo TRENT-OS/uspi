@@ -742,12 +742,13 @@ boolean DWHCIDeviceTransferStage (TDWHCIDevice *pThis, TUSBRequest *pURB, boolea
 	while (pThis->m_bWaiting)
 	{
 		// do nothing
-		usDelay (30);
+		usDelay (40);
 	}
 
 	if(nic_init_transfer_post())
 	{
 		LogWrite (FromDWHCI, USPI_LOG_ERROR, "DWHCIDeviceTransferStage could not be unlocked.");
+
 	}
 
 	return USBRequestGetStatus (pURB);
