@@ -721,7 +721,7 @@ boolean DWHCIDeviceTransferStage (TDWHCIDevice *pThis, TUSBRequest *pURB, boolea
 	assert (pURB != 0);
 	USBRequestSetCompletionRoutine (pURB, DWHCIDeviceCompletionRoutine, 0, pThis);
 
-	assert (!pThis->m_bWaiting);
+	// assert (!pThis->m_bWaiting);
 	pThis->m_bWaiting = TRUE;
 
 	if (!DWHCIDeviceTransferStageAsync (pThis, pURB, bIn, bStatusStage))
