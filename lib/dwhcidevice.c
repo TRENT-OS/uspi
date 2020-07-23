@@ -726,10 +726,10 @@ boolean DWHCIDeviceTransferStage (TDWHCIDevice *pThis, TUSBRequest *pURB, boolea
 	assert (pThis != 0);
 
 	assert (pURB != 0);
-	USBRequestSetCompletionRoutine (pURB, DWHCIDeviceCompletionRoutine, 0, pThis);
+	// USBRequestSetCompletionRoutine (pURB, DWHCIDeviceCompletionRoutine, 0, pThis);
 
 	// assert (!pThis->m_bWaiting);
-	pThis->m_bWaiting = TRUE;
+	// pThis->m_bWaiting = TRUE;
 
 	if (!DWHCIDeviceTransferStageAsync (pThis, pURB, bIn, bStatusStage))
 	{
@@ -739,11 +739,13 @@ boolean DWHCIDeviceTransferStage (TDWHCIDevice *pThis, TUSBRequest *pURB, boolea
 		return FALSE;
 	}
 
-	while (pThis->m_bWaiting)
-	{
-		// do nothing
-		usDelay (40);
-	}
+	c_transfer_done_wait();
+
+	// while (pThis->m_bWaiting)
+	// {
+	// 	// do nothing
+	// 	usDelay (40);
+	// }
 
 	if(nic_init_transfer_post())
 	{
@@ -779,7 +781,7 @@ boolean DWHCIDeviceTransferStageAsync (TDWHCIDevice *pThis, TUSBRequest *pURB, b
 	DWHCITransferStageData (pStageData, nChannel, pURB, bIn, bStatusStage);
 
 	DWHCIDeviceEnableChannelInterrupt (pThis, nChannel);
-	
+
 	if (!DWHCITransferStageDataIsSplit (pStageData))
 	{
 		DWHCITransferStageDataSetState (pStageData, StageStateNoSplitTransfer);
@@ -1072,7 +1074,8 @@ void DWHCIDeviceChannelInterruptHandler (TDWHCIDevice *pThis, unsigned nChannel)
 
 		DWHCIDeviceFreeChannel (pThis, nChannel);
 
-		USBRequestCallCompletionRoutine (pURB);
+		// USBRequestCallCompletionRoutine (pURB);
+		e_transfer_done_emit();
 		break;
 
 	case StageStateStartSplit:
@@ -1091,7 +1094,8 @@ void DWHCIDeviceChannelInterruptHandler (TDWHCIDevice *pThis, unsigned nChannel)
 
 			DWHCIDeviceFreeChannel (pThis, nChannel);
 
-			USBRequestCallCompletionRoutine (pURB);
+			// USBRequestCallCompletionRoutine (pURB);
+			e_transfer_done_emit();
 			break;
 		}
 
@@ -1122,7 +1126,8 @@ void DWHCIDeviceChannelInterruptHandler (TDWHCIDevice *pThis, unsigned nChannel)
 
 			DWHCIDeviceFreeChannel (pThis, nChannel);
 
-			USBRequestCallCompletionRoutine (pURB);
+			// USBRequestCallCompletionRoutine (pURB);
+			e_transfer_done_emit();
 			break;
 		}
 		
@@ -1147,7 +1152,8 @@ void DWHCIDeviceChannelInterruptHandler (TDWHCIDevice *pThis, unsigned nChannel)
 
 				DWHCIDeviceFreeChannel (pThis, nChannel);
 
-				USBRequestCallCompletionRoutine (pURB);
+				// USBRequestCallCompletionRoutine (pURB);
+				e_transfer_done_emit();
 				break;
 			}
 
@@ -1183,7 +1189,8 @@ void DWHCIDeviceChannelInterruptHandler (TDWHCIDevice *pThis, unsigned nChannel)
 
 		DWHCIDeviceFreeChannel (pThis, nChannel);
 
-		USBRequestCallCompletionRoutine (pURB);
+		// USBRequestCallCompletionRoutine (pURB);
+		e_transfer_done_emit();
 		break;
 
 	default:
