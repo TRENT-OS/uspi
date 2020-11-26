@@ -693,7 +693,12 @@ void DWHCIDeviceFlushTxFIFO (TDWHCIDevice *pThis, unsigned nFIFO)
 
 	if (DWHCIDeviceWaitForBit (pThis, &Reset, DWHCI_CORE_RESET_TX_FIFO_FLUSH, FALSE, 10))
 	{
-		usDelay (1);		// Wait for 3 PHY clocks
+		/* 	
+			The delay of 1ms here is not required by the driver, but is set to avoid error seL4 messages
+			which are caused when the timeout function takes more to propagate through the layered architecture
+			than the actual timeout duration.
+		*/
+		usDelay (1000);		// Wait for 3 PHY clocks
 	}
 
 	_DWHCIRegister (&Reset);
@@ -710,7 +715,12 @@ void DWHCIDeviceFlushRxFIFO (TDWHCIDevice *pThis)
 
 	if (DWHCIDeviceWaitForBit (pThis, &Reset, DWHCI_CORE_RESET_RX_FIFO_FLUSH, FALSE, 10))
 	{
-		usDelay (1);			// Wait for 3 PHY clocks
+		/* 	
+			The delay of 1ms here is not required by the driver, but is set to avoid error seL4 messages
+			which are caused when the timeout function takes more to propagate through the layered architecture
+			than the actual timeout duration.
+		*/
+		usDelay (1000);			// Wait for 3 PHY clocks
 	}
 
 	_DWHCIRegister (&Reset);
@@ -741,8 +751,12 @@ boolean DWHCIDeviceTransferStage (TDWHCIDevice *pThis, TUSBRequest *pURB, boolea
 
 	while (pThis->m_bWaiting)
 	{
-		// do nothing
-		usDelay (40);
+		/* 	
+			The delay of 1ms here is not required by the driver, but is set to avoid error seL4 messages
+			which are caused when the timeout function takes more to propagate through the layered architecture
+			than the actual timeout duration.
+		*/
+		usDelay (1000);
 	}
 
 	if(nic_init_transfer_post())
