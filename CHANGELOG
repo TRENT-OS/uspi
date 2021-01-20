@@ -1,0 +1,37 @@
+2020-11-26 HENSOLDT Cyber GmbH
+
+    Suppress error messages by altering relevant delay values
+
+    * lib/dwhcidevice.c (DWHCIDeviceTransferStage, DWHCIDeviceFlushRxFIFO)
+    (DWHCIDeviceFlushTxFIFO): Tune delays to avoid sel4 error messages.
+
+2020-07-21 HENSOLDT Cyber GmbH
+
+    Adaptations and improvements to the DWHCIDeviceTransferStage function
+
+    * lib/dwhcidevice.c (DWHCIDeviceTransferStage): Synchronize send and
+    receive and improve performance by placing proper delay() calls.
+
+2020-04-03 HENSOLDT Cyber GmbH
+
+    A couple of major library source code modifications to fit the
+    special environment requirements
+
+    * include/uspios.h (dma_alloc, dma_free): Replace malloc/free with
+    dma_alloc/dma_free wherever the allocated memory is used for DMA. These
+    functions are defined inside uspios.h and are implemented alongside other
+    environment functions.
+
+    * lib/*.c (USPI_LOG_ERROR): Rename error codes from 'LOG_ERROR' to avoid
+    clashes with environment error codes and added more log output to make
+    the internal states more understandable during runtime.
+
+    * include/uspi/dwhcidevice.h (DWHCIDeviceInterruptHandler): Modify the
+    interrupt structure by making the interrupt handler public so it can be
+    called from the environment interrupt handler that actually gets triggered
+    on interrupt.
+
+    * lib/dwhcidevice.c (DWHCIDeviceInterruptHandler): Add a static reference
+    to self which can be accessed from the interrupt handler since the
+    environment interrupt handler does not support registering this reference
+    internally.

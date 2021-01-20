@@ -105,23 +105,3 @@ To build the USPi library do the following:
 	make
 
 You should add `-DAARCH64=1` to the compiler options in your OS environment when using the USPi library in AArch64 mode there.
-
-Modifications compared to original rsta2/uspi
----------------------------------------------
-2020-12-21 HENSOLDT Cyber GmbH
-
-A couple of major library source code modifications were made to fit the special environment requirements:
-
-1) Replaced malloc/free with dma_alloc/dma_free where ever the allocated memory is used for DMA. These functions are defined inside uspios.h and are implemented allongside other environment functions.
-
-2) Renamed error codes to avoid clashes with environment error codes and added more log output to better understand the internal states during runtime.
-
-3) Modified the interrupt structure by making the interrupt handler public so it can be called from the environment interrupt handler which actually gets triggered.
-
-4) Added a static reference to self in the TDWHCIDevice.c which can be accessed from the interrupt handler since the environment interrupt handler does not support registering this reference internally.
-
-5) Improved performaces by placing proper delay() calls
-
-6) Synchronized send and receive
-
-7) Tuned delays to avoid sel4 error messages
