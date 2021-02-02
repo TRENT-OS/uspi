@@ -64,12 +64,12 @@ Building is normally done on PC Linux. If building for the Raspberry Pi 1 you ne
 
 First edit the file *Rules.mk* and set the Raspberry Pi version (*RASPPI*, 1, 2 or 3) and the *PREFIX* of your toolchain commands. Alternatively you can create a *Config.mk* file (which is ignored by git) and set the Raspberry Pi version and the *PREFIX* variable to the prefix of your compiler like this (don't forget the dash at the end):
 
-`RASPPI = 1`
+`RASPPI = 1`  
 `PREFIX = arm-none-eabi-`
 
 Then go to the lib/ directory of USPi and do:
 
-`make clean`
+`make clean`  
 `make`
 
 The ready build *libuspi.a* file should be in the lib/ directory.
@@ -84,7 +84,7 @@ Samples
 
 The sample programs in the *sample/* subdirectory and all required libraries can be build from USPi root by:
 
-`./makeall clean`
+`./makeall clean`  
 `./makeall`
 
 The ready build *kernel.img* image file is in the same directory where its source code is. Copy it on a SD(HC) card along with the firmware files *bootcode.bin*, *fixup.dat* and *start.elf* which can be get [here](https://github.com/raspberrypi/firmware/tree/master/boot). Put the SD(HC) card into your Raspberry Pi and start it.
