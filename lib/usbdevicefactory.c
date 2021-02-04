@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2020-2021, HENSOLDT Cyber GmbH
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 //
 // usbdevicefactory.c
 //
